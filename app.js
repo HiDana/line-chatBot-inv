@@ -3,13 +3,11 @@ var linebot = require("linebot");
 var request = require("request");
 var schedule = require("node-schedule");
 
-const data = require("./data.json");
-
 // 用於辨識Line Channel的資訊
 var bot = linebot({
   channelId: "1621633629",
-  channelSecret: "1e05170da187430db901824ea3c828af",
-  channelAccessToken: "DepQ/NyOzsONFlCTFBJjjh9nX71mxRzbXZj6oF807lplqS6me869P/069620OqnaxEnZGdZX4ESymXzu9Fct7mR52RDalck2v7a2MsbOFI8G4oswX95ksJ+GAfd5krJr3ISIAMMstOrcarcgp8XzLgdB04t89/1O/w1cDnyilFU="
+  channelSecret: "e895b619a261771e845fadfd86f91057",
+  channelAccessToken: "CHtJ+o79XwnP2sl33WyoeRpZW8R2Obl6JADVEv21cWuGXFQiYH1rAnxui/vxDwP8xEnZGdZX4ESymXzu9Fct7mR52RDalck2v7a2MsbOFI+TMnWmo8N/LDh6HWPwQEAgIli3RlVuyOdvC3LyQ/hTPgdB04t89/1O/w1cDnyilFU="
 });
 
 const userId = "Uefbd1dd6d4fe3e159fa89d398c2eb306";
@@ -27,9 +25,8 @@ request("https://tw.rter.info/capi.php", function(error, res, body) {
   // console.log("日幣轉台幣", USDTWD / USDJPY);
   // console.log("加幣轉台幣", USDTWD / USDCAD);
   replyInfos = [
-    { title: "人民幣 轉 台幣", ext: (USDTWD / USDCNY).toFixed(4) },
-    { title: "日幣 轉 台幣", ext: (USDTWD / USDJPY).toFixed(4) },
-    { title: "加幣 轉 台幣", ext: (USDTWD / USDCAD).toFixed(4) }
+    { title: "RMB -> TWD", ext: (USDTWD / USDCNY).toFixed(4) },
+    { title: "JPY -> TWD", ext: (USDTWD / USDJPY).toFixed(4) }
   ];
 
   let sendMsg = replyInfos.map(info => `${info.title} ${info.ext}`).join("\n");
@@ -50,12 +47,18 @@ request("https://tw.rter.info/capi.php", function(error, res, body) {
 bot.on("message", function(event) {
   // event.message.text是使用者傳給bot的訊息
   // 準備要回傳的內容
-  // var replyMsg = `Hello:${event.message.text}`;
+  // var replyMsg = `Hello: ${event.message.text}`;
+  var replyMsg = {
+    type: "image",
+    originalContentUrl: "https://pbs.twimg.com/media/DuSMS-3UwAAIYtI.jpg:large",
+    previewImageUrl: "https://pbs.twimg.com/media/DuSMS-3UwAAIYtI.jpg"
+  };
+
   // 透過event.reply(要回傳的訊息)方法將訊息回傳給使用者
   console.log("replyInfo", replyInfo);
 
   event
-    .reply(replyInfo)
+    .reply(replyMsg)
     .then(function(data) {
       // 當訊息成功回傳後的處理
     })
@@ -67,6 +70,5 @@ bot.on("message", function(event) {
 // Bot所監聽的webhook路徑與port
 bot.listen("/linewebhook", 3000, function() {
   console.log("[BOT is ready]");
-
   // console.log();
 });
