@@ -24,13 +24,11 @@ var bot = linebot({
 // 當有人傳送訊息給Bot時
 bot.on("message", function(event) {
   event.source.profile().then(function(profile) {
-    console.log(profile);
     //[N] before save ,find the user ever exist
     User.find({ user_id: profile.userId }, "user_id user_name", function(
       err,
       user
     ) {
-      console.log("user", user);
       if (user.length < 1) {
         //[N] save newUser
         var NewUser = new User({
@@ -52,13 +50,14 @@ bot.on("message", function(event) {
           }
         });
       } else {
-				.reply("[A] The user was exsit, not to save")
-            .then(function(data) {
-              // 當訊息成功回傳後的處理
-            })
-            .catch(function(error) {
-              // 當訊息回傳失敗後的處理
-            });
+        event
+          .reply("[A] The user was exsit, not to save")
+          .then(function(data) {
+            // 當訊息成功回傳後的處理
+          })
+          .catch(function(error) {
+            // 當訊息回傳失敗後的處理
+          });
       }
       if (err) return handleError(err);
     });
