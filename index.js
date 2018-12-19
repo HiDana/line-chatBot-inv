@@ -91,6 +91,20 @@ function ex_push_ontime() {
     // console.log("人民幣轉台幣", USDTWD / USDCNY);
     // console.log("日幣轉台幣", USDTWD / USDJPY);
     // console.log("加幣轉台幣", USDTWD / USDCAD);
+
+    // const Boundary = [
+    //   {
+    //     Currency: "RMBTWD",
+    //     ex: 4.5,
+    //     compare: "more"
+    //   },
+    //   {
+    //     Currency: "JPYTWD",
+    //     ex: 0.27,
+    //     compare: "less"
+    //   }
+    // ];
+
     replyInfos = [
       { title: "RMB -> TWD", ext: (USDTWD / USDCNY).toFixed(4) },
       { title: "JPY -> TWD", ext: (USDTWD / USDJPY).toFixed(4) }
@@ -116,7 +130,7 @@ function ex_push_ontime() {
 // 定時跑這隻
 scheduleCronstyle = () => {
   // schedule.scheduleJob("0 0 10 * * *", function() {
-  schedule.scheduleJob("0 * * * * *", function() {
+  schedule.scheduleJob("0 0 * * * *", function() {
     console.log("scheduleCronstyle:" + new Date());
     ex_push_ontime();
   });
