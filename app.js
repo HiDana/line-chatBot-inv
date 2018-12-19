@@ -72,7 +72,7 @@ bot.on("message", function(event) {
 });
 
 // 取得匯率資料並推播
-function ex_push_ontime() {
+ex_push_ontime() {
   request("https://tw.rter.info/capi.php", function(error, res, body) {
     // console.log("statusCode:", res && res.statusCode); // Print the response status code if a response was received
     const USDTWD = JSON.parse(res.body).USDTWD.Exrate; //美金轉台幣
