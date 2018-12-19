@@ -117,7 +117,7 @@ scheduleCronstyle = () => {
 scheduleCronstyle();
 
 // Bot所監聽的webhook路徑與port
-bot.listen("/linewebhook", 3000, function() {
+bot.listen("/linewebhook", process.env.PORT || 3000, function() {
   console.log("[BOT is ready]");
   // console.log();
 });
