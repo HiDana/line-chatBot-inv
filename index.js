@@ -64,6 +64,8 @@ bot.on("message", function(event) {
           .catch(function(error) {
             // 當訊息回傳失敗後的處理
           });
+
+        ex_push_ontime();
       }
       if (err) return handleError(err);
     });
