@@ -116,7 +116,7 @@ function ex_push_ontime() {
 // 定時跑這隻
 scheduleCronstyle = () => {
   // schedule.scheduleJob("0 0 10 * * *", function() {
-  schedule.scheduleJob("0 0 * * * *", function() {
+  schedule.scheduleJob("0 * * * * *", function() {
     console.log("scheduleCronstyle:" + new Date());
     ex_push_ontime();
   });
