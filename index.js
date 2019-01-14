@@ -57,7 +57,7 @@ bot.on("message", function(event) {
         });
       } else {
         event
-          .reply("Welcome back to use INV \n (,,・ω・,,)")
+          .reply("hello (,,・ω・,,)")
           .then(function(data) {
             // 當訊息成功回傳後的處理
           })
