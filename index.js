@@ -57,7 +57,7 @@ bot.on("message", function(event) {
         });
       } else {
         event
-          .reply("[A] The user was exsit, not to save")
+          .reply("Welcome back to use INV (,,・ω・,,)")
           .then(function(data) {
             // 當訊息成功回傳後的處理
           })
@@ -87,6 +87,7 @@ function ex_push_ontime() {
     const USDJPY = JSON.parse(res.body).USDJPY.Exrate; //美金轉日圓
     const USDCNY = JSON.parse(res.body).USDCNY.Exrate; //美金轉人民幣
     const USDCAD = JSON.parse(res.body).USDCAD.Exrate; //美金轉加幣
+    const USDCAD = JSON.parse(res.body).USDGBP.Exrate; //美金轉英鎊
 
     // console.log("人民幣轉台幣", USDTWD / USDCNY);
     // console.log("日幣轉台幣", USDTWD / USDJPY);
@@ -106,8 +107,11 @@ function ex_push_ontime() {
     // ];
 
     replyInfos = [
+      { title: "USD -> TWD", ext: USDTWD.toFixed(4) },
       { title: "RMB -> TWD", ext: (USDTWD / USDCNY).toFixed(4) },
-      { title: "JPY -> TWD", ext: (USDTWD / USDJPY).toFixed(4) }
+      { title: "JPY -> TWD", ext: (USDTWD / USDJPY).toFixed(4) },
+      { title: "GBP -> TWD", ext: (USDTWD / USDGBP).toFixed(4) },
+      { title: "CAD -> TWD", ext: (USDTWD / USDCAD).toFixed(4) }
     ];
 
     let sendMsg = replyInfos
