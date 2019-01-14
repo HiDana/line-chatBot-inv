@@ -57,7 +57,7 @@ bot.on("message", function(event) {
         });
       } else {
         event
-          .reply("Welcome back to use INV (,,・ω・,,)")
+          .reply("Welcome back to use INV \n (,,・ω・,,)")
           .then(function(data) {
             // 當訊息成功回傳後的處理
           })
@@ -80,56 +80,54 @@ bot.on("message", function(event) {
 });
 
 // 取得匯率資料並推播
-function ex_push_ontime() {
-  request("https://tw.rter.info/capi.php", function(error, res, body) {
-    // console.log("statusCode:", res && res.statusCode); // Print the response status code if a response was received
-    const USDTWD = JSON.parse(res.body).USDTWD.Exrate; //美金轉台幣
-    const USDJPY = JSON.parse(res.body).USDJPY.Exrate; //美金轉日圓
-    const USDCNY = JSON.parse(res.body).USDCNY.Exrate; //美金轉人民幣
-    const USDCAD = JSON.parse(res.body).USDCAD.Exrate; //美金轉加幣
-    const USDCAD = JSON.parse(res.body).USDGBP.Exrate; //美金轉英鎊
+// function ex_push_ontime() {
+request("https://tw.rter.info/capi.php", function(error, res, body) {
+  // console.log("statusCode:", res && res.statusCode); // Print the response status code if a response was received
+  const USDTWD = JSON.parse(res.body).USDTWD.Exrate; //美金轉台幣
+  const USDJPY = JSON.parse(res.body).USDJPY.Exrate; //美金轉日圓
+  const USDCNY = JSON.parse(res.body).USDCNY.Exrate; //美金轉人民幣
+  const USDCAD = JSON.parse(res.body).USDCAD.Exrate; //美金轉加幣
+  const USDGBP = JSON.parse(res.body).USDGBP.Exrate; //美金轉英鎊
 
-    // console.log("人民幣轉台幣", USDTWD / USDCNY);
-    // console.log("日幣轉台幣", USDTWD / USDJPY);
-    // console.log("加幣轉台幣", USDTWD / USDCAD);
+  // console.log("人民幣轉台幣", USDTWD / USDCNY);
+  // console.log("日幣轉台幣", USDTWD / USDJPY);
+  // console.log("加幣轉台幣", USDTWD / USDCAD);
 
-    // const Boundary = [
-    //   {
-    //     Currency: "RMBTWD",
-    //     ex: 4.5,
-    //     compare: "more"
-    //   },
-    //   {
-    //     Currency: "JPYTWD",
-    //     ex: 0.27,
-    //     compare: "less"
-    //   }
-    // ];
+  // const Boundary = [
+  //   {
+  //     Currency: "RMBTWD",
+  //     ex: 4.5,
+  //     compare: "more"
+  //   },
+  //   {
+  //     Currency: "JPYTWD",
+  //     ex: 0.27,
+  //     compare: "less"
+  //   }
+  // ];
 
-    replyInfos = [
-      { title: "USD -> TWD", ext: USDTWD.toFixed(4) },
-      { title: "RMB -> TWD", ext: (USDTWD / USDCNY).toFixed(4) },
-      { title: "JPY -> TWD", ext: (USDTWD / USDJPY).toFixed(4) },
-      { title: "GBP -> TWD", ext: (USDTWD / USDGBP).toFixed(4) },
-      { title: "CAD -> TWD", ext: (USDTWD / USDCAD).toFixed(4) }
-    ];
+  replyInfos = [
+    { title: "RMB -> TWD", ext: (USDTWD / USDCNY).toFixed(4) },
+    { title: "JPY -> TWD", ext: (USDTWD / USDJPY).toFixed(4) },
+    { title: "USD -> TWD", ext: USDTWD.toFixed(4) },
+    { title: "GBP -> TWD", ext: (USDTWD / USDGBP).toFixed(4) },
+    { title: "CAD -> TWD", ext: (USDTWD / USDCAD).toFixed(4) }
+  ];
 
-    let sendMsg = replyInfos
-      .map(info => `${info.title} ${info.ext}`)
-      .join("\n");
+  let sendMsg = replyInfos.map(info => `${info.title} ${info.ext}`).join("\n");
 
-    //[N] 取得 DB 所有用戶資訊
-    User.find({}, function(err, users) {
-      let userMap = [];
-      users.forEach(function(user) {
-        userMap.push(user);
-      });
-      userMap.map(user => {
-        bot.push(user.user_id, [sendMsg]);
-      });
+  //[N] 取得 DB 所有用戶資訊
+  User.find({}, function(err, users) {
+    let userMap = [];
+    users.forEach(function(user) {
+      userMap.push(user);
+    });
+    userMap.map(user => {
+      bot.push(user.user_id, [sendMsg]);
     });
   });
-}
+});
+// }
 
 // 定時跑這隻
 scheduleCronstyle = () => {
